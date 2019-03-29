@@ -70,3 +70,28 @@ server {
 
 }
 ```
+
+# How to activate FastCGI Cache
+
+This should be placed inside http {} context if you want to use this ZONE globally.
+Also it can be placed inside server {} context, if you want to use the ZONE only for current domain
+
+```
+http {
+ 
+    ...
+
+    ##
+    # Activate FastCGI Cache
+    # Create an /tmp/nginx_cache directory called ZONE_1 
+    ##
+    fastcgi_cache_path /tmp/nginx_cache levels=1:2 keys_zone=ZONE_1:100m inactive=60m;
+    fastcgi_cache_key "$scheme$request_method$host$request_uri";
+
+    ...
+
+    server {
+        ...
+    }
+}
+```
